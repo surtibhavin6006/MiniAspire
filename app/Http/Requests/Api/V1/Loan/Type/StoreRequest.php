@@ -28,7 +28,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => ['required','max:255'],
-            'interest_type' => ['required','in:Fixed Monthly Amount,Fixed Monthly Percentage,Fixed Yearly Amount,Fixed Yearly Percentage'],
+            'interest_type' => ['required','in:Fixed Monthly Amount'],
             'interest_rate' => ['required','numeric','min:0']
         ];
     }

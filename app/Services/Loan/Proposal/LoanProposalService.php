@@ -54,7 +54,6 @@ class LoanProposalService implements CrudServiceInterface
     {
         $attributes = $request->only([
             'reason',
-            'documents',
             'borrow_amount',
             'loan_type_id',
             'is_approved',

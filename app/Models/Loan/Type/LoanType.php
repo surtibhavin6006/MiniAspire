@@ -26,7 +26,7 @@ class LoanType extends Model
     /*
      * add available all relation to this model
      */
-    protected $withAvailables = array('role');
+    protected $withAvailables = array();
 
     /*
      * Using for sorting fields

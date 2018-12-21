@@ -34,7 +34,7 @@ class LoanProposal extends Model
     /*
      * add available all relation to this model
      */
-    protected $withAvailables = array('type','user');
+    protected $withAvailables = array('type','client');
 
     /*
      * Using for sorting fields

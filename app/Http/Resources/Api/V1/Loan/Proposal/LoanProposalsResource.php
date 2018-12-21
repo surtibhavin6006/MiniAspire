@@ -70,7 +70,7 @@ class LoanProposalsResource extends ResourceCollection
                         'created_at' => ['asc','desc'],
                     ],
                     'available_includes' => [
-                        'type'
+                        'type','client'
                     ],
                     'pagination' => [
                         'per_page' => config('general.pagination.per_page')

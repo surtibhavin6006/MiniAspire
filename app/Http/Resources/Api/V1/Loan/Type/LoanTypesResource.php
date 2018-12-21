@@ -55,6 +55,7 @@ class LoanTypesResource extends ResourceCollection
                     'available_sorts' => [
                         'name' => ['asc','desc'],
                         'interest_type' => ['asc','desc'],
+                        'interest_rate' => ['asc','desc'],
                         'created_at' => ['asc','desc'],
                     ],
                     'available_includes' => [

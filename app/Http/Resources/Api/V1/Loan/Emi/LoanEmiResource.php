@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources\Api\V1\Loan\Emi;
 
+use App\Http\Resources\Api\V1\Loan\Proposal\LoanProposalResource;
+use App\Http\Resources\Api\V1\Loan\Type\LoanTypeResource;
+use App\Http\Resources\Api\V1\User\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LoanEmiResource extends JsonResource
@@ -27,6 +30,9 @@ class LoanEmiResource extends JsonResource
             'date_of_emi' => $this->date_of_emi,
             'is_forget_to_pay' => $this->is_forget_to_pay,
             'penalty_amount' => $this->penalty_amount,
+            'client' =>  new UserResource($this->whenLoaded('client')),
+            'type' =>  new LoanTypeResource($this->whenLoaded('type')),
+            'proposal' =>  new LoanProposalResource($this->whenLoaded('proposal')),
         ];
     }
 }

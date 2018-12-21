@@ -18,7 +18,6 @@ class CreateLoanProposalsTable extends Migration
             $table->primary('id');
 
             $table->string('reason')->nullable();
-            $table->string('documents')->nullable();
             $table->double('borrow_amount')->nullable();
 
             $table->uuid('loan_type_id');

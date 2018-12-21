@@ -35,7 +35,7 @@ class LoanEmi extends Model
     /*
      * add available all relation to this model
      */
-    protected $withAvailables = array();
+    protected $withAvailables = array('type','client','proposal');
 
     /*
      * Using for sorting fields
@@ -46,10 +46,14 @@ class LoanEmi extends Model
      * @var array add all fields by which you can do sorting
      */
     protected $sortAvailableFields = array(
-        'is_approved',
-        'tenure',
-        'user_id',
-        'created_at'
+        'client_id',
+        'loan_proposal_id',
+        'loan_type_id',
+        'is_paid'.
+        'is_enable'.
+        'date_of_emi'.
+        'is_forget_to_pay'.
+        'created_at',
     );
 
     /*
