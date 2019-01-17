@@ -9,6 +9,8 @@
 namespace App\Interfaces;
 
 
+use Illuminate\Support\Facades\File;
+
 interface RepositoryInterface
 {
     public function all(array $attributes);
@@ -22,5 +24,7 @@ interface RepositoryInterface
     public function softDelete($id);
 
     public function forceDelete($id);
+
+    //public function uploadFile($uploadPath,File $file);
 
 }

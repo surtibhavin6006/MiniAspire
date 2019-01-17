@@ -12,5 +12,8 @@ return [
     ],
     'db_transaction' => [
         'try' => 5
+    ],
+    'file_path' => [
+        'user_profile' => 'user/profile_pic/'
     ]
 ];

@@ -4,6 +4,7 @@ namespace App\Http\Resources\Api\V1\User;
 
 use App\Http\Resources\Api\V1\Role\RolesResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class UserResource extends JsonResource
 {
@@ -26,6 +27,7 @@ class UserResource extends JsonResource
             'mobile_number' => $this->mobile_number,
             'gender' => $this->gender,
             'email_verified_at' => $this->email_verified_at,
+            'profile_pic' => !empty($this->profile_pic) ? Storage::url(config('general.file_path.user_profile').$this->profile_pic) : '',
             'role' =>  new RolesResource($this->whenLoaded('role')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

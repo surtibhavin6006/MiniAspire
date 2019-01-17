@@ -26,4 +26,5 @@ Route::group([
     Route::get('/{id}','UserController@show')->name('show');
     Route::patch('/{id}','UserController@update')->name('update');
     Route::delete('/{id}','UserController@destroy')->name('destroy');
+    Route::post('profile-pic/{id}', 'UserController@uploadProfilePic')->name('uploadProfilePic');
 });

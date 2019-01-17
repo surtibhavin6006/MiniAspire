@@ -9,6 +9,7 @@
 namespace App\Services\User;
 
 
+use App\Exceptions\GeneralException;
 use App\Interfaces\CrudServiceInterface;
 use App\Repository\User\UserRepository;
 use Illuminate\Http\Request;
@@ -17,11 +18,19 @@ class UserService implements CrudServiceInterface
 {
     protected $user;
 
+    /**
+     * UserService constructor.
+     * @param UserRepository $user
+     */
     public function __construct(UserRepository $user)
     {
         $this->user = $user ;
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function index(Request $request)
     {
         $attributes = array(
@@ -39,6 +48,11 @@ class UserService implements CrudServiceInterface
         return $this->user->all($attributes);
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws GeneralException
+     */
     public function store(Request $request)
     {
         $attributes = $request->only([
@@ -54,10 +68,21 @@ class UserService implements CrudServiceInterface
             'user_type'
         ]);
 
+        if(empty($attributes)){
+
+            throw new GeneralException('There are no parameters',200);
+        }
+
         return $this->user->create($attributes);
     }
 
-    public function show($id,Request $request)
+    /**
+     * @param $id
+     * @param Request $request
+     * @return mixed
+     * @throws GeneralException
+     */
+    public function show($id, Request $request)
     {
         $attributes = $request->only([
             'includes',
@@ -66,19 +91,41 @@ class UserService implements CrudServiceInterface
         return $this->user->find($id,$attributes);
     }
 
-    public function update($id,Request $request)
+    /**
+     * @param $id
+     * @param Request $request
+     * @return mixed
+     * @throws GeneralException
+     */
+    public function update($id, Request $request)
     {
         $attributes = $request->only([
             'first_name',
             'last_name',
             'address1',
             'address2',
-            'zipcode'
+            'gender',
+            'zipcode',
         ]);
+
+        if($request->hasFile('profile_pic'))
+        {
+            $attributes['profile_pic'] = $request->file('profile_pic');
+        }
+
+        if(empty($attributes)){
+
+            throw new GeneralException('There are no parameters',200);
+        }
 
         return $this->user->update($id,$attributes);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     * @throws GeneralException
+     */
     public function destroy($id)
     {
         return $this->user->softDelete($id);

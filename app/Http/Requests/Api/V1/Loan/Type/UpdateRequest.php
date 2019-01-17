@@ -28,7 +28,8 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => ['sometimes','required','max:255'],
-            'interest_type' => ['sometimes','numeric','min:0']
+            'interest_rate' => ['sometimes','numeric','min:0'],
+            'interest_type' => ['sometimes','in:Fixed Monthly Amount'],
         ];
     }
 }

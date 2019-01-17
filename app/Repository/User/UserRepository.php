@@ -9,12 +9,12 @@
 namespace App\Repository\User;
 
 
+use App\CAbstract\RepositoryAbstract;
 use App\Exceptions\GeneralException;
-use App\Interfaces\RepositoryInterface;
 use App\Models\User\User;
 use Illuminate\Support\Facades\DB;
 
-class UserRepository implements RepositoryInterface
+class UserRepository extends RepositoryAbstract
 {
     protected $user;
 
@@ -118,6 +118,10 @@ class UserRepository implements RepositoryInterface
      */
     public function update($id, array $attributes = array())
     {
+        if(empty($attributes)){
+            return true;
+        }
+
         $user = $this->find($id);
 
         $user->first_name = !empty($attributes['first_name']) ? $attributes['first_name'] : $user->first_name;
@@ -125,7 +129,35 @@ class UserRepository implements RepositoryInterface
         $user->address1 = !empty($attributes['address1']) ? $attributes['address1'] : $user->address1;
         $user->address2 = !empty($attributes['address2']) ? $attributes['address2'] : $user->address2;
         $user->zipcode = !empty($attributes['zipcode']) ? $attributes['zipcode'] : $user->zipcode;
+        $user->gender = !empty($attributes['gender']) ? $attributes['gender'] : $user->gender;
         $user->email_verified_at = !empty($attributes['email_verified_at']) ? $attributes['email_verified_at'] : $user->email_verified_at;
+
+        /**
+         * checking profile pic attributes is there
+         */
+        if (!empty($attributes['profile_pic'])) {
+
+            /**
+             * if profile pic is already there first delete physically old one
+             */
+            if ($user->profile_pic != '') {
+                $fileToBeDelete = array();
+                $fileToBeDelete[] = config('general.file_path.user_profile') ."/". $user->profile_pic;
+                $this->deleteFiles($fileToBeDelete);
+                unset($fileToBeDelete);
+            }
+
+            /**
+             * updating profile pic
+             */
+            $user->profile_pic = "";
+            if ($attributes['profile_pic'] != 'delete') {
+                $profilePicName = $user->id."_".uniqid().".".$attributes['profile_pic']->getClientOriginalExtension();
+                $profilePicPath = config('general.file_path.user_profile');
+                $uploadedFileName = $this->uploadFile($profilePicPath,$attributes['profile_pic'],$profilePicName);
+                $user->profile_pic = $uploadedFileName;
+            }
+        }
 
         $returnData = DB::transaction(function () use (&$user) {
 

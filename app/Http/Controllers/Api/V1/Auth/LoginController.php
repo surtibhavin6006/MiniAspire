@@ -84,10 +84,21 @@ class LoginController extends ApiBaseController
      */
     public function me(Request $request)
     {
+        $user = $request->user();
+
+        $includes = $request->only('includes');
+        if(!empty($includes)){
+
+            foreach ($includes as $include){
+                $user->load($include);
+            }
+
+        }
+
         return $this->respond(
             [
                 'success' => 'true',
-                'data' => new UserResource($request->user()),
+                'data' => new UserResource($user),
             ]
         );
     }
